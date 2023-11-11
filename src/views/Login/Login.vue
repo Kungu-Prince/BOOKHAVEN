@@ -56,6 +56,9 @@
           <img @click="googleSignIn" id="googleSignInButton"
             class="cursor-pointer w-32 xs:w-44 md:w-48 rounded-lg mb-auto" src="@/assets/images/google_signin.png"
             alt="Sign in with google" />
+            <img @click="facebookSignIn"
+            class="cursor-pointer w-32 xs:w-44 md:w-48 rounded-lg mb-auto" src="https://i.stack.imgur.com/oL5c2.png"
+            alt="Sign in with facebook" />
           <p class="text-label-small md:text-label-medium">
             New user?
             <RouterLink to="/Signup" class="text-primary-primary">SIGN UP HERE</RouterLink>
@@ -67,7 +70,7 @@
 </template>
 
 <script>
-import { signInWithEP, signInWithGoogle } from "@/assets/js/firebase";
+import { signInWithEP, signInWithGoogle, signInWithFacebook } from "@/assets/js/firebase";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
@@ -117,6 +120,18 @@ export default {
       }
     };
 
+    const facebookSignIn = async () => {
+      const result = await signInWithFacebook();
+      if (result.success === true) {
+        toast.success("Facebook sign in successful");
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
+      } else {
+        toast.error(`Facebook sign in failed: ${result.error}`);
+      }
+    };
+
     return {
       email,
       password,
@@ -124,6 +139,7 @@ export default {
       googleSignIn,
       showPassword,
       togglePassword,
+      facebookSignIn,
       backgroundImageUrl,
     };
   },

@@ -58,6 +58,9 @@ import { RouterLink } from 'vue-router'; import { RouterLink } from
           <img @click="googleSignIn"
             class="cursor-pointer w-32 xs:w-44 md:w-48 rounded-lg mb-auto" src="@/assets/images/google_signin.png"
             alt="Sign in with google" />
+            <img @click="facebookSignIn"
+            class="cursor-pointer w-32 xs:w-44 md:w-48 rounded-lg mb-auto" src="https://i.stack.imgur.com/oL5c2.png"
+            alt="Sign in with facebook" />
           <p class="text-label-small md:text-label-medium">
             Already have an account?
             <RouterLink to="/Login" class="text-primary-primary">LOGIN HERE</RouterLink>
@@ -70,7 +73,7 @@ import { RouterLink } from 'vue-router'; import { RouterLink } from
 
 <script>
 import { ref } from "vue";
-import { newAccountWithEP, signInWithGoogle } from "@/assets/js/firebase";
+import { newAccountWithEP, signInWithGoogle, signInWithFacebook } from "@/assets/js/firebase";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
@@ -117,6 +120,18 @@ export default {
       }
     };
 
+    const facebookSignIn = async () => {
+      const result = await signInWithFacebook();
+      if (result.success === true) {
+        toast.success("Facebook sign in successful");
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
+      } else {
+        toast.error(`Facebook sign in failed: ${result.error}`);
+      }
+    };
+
     const togglePassword = () => {
       showPassword.value = !showPassword.value;
     };
@@ -129,6 +144,7 @@ export default {
       googleSignIn,
       showPassword,
       togglePassword,
+      facebookSignIn,
       backgroundImageUrl,
     };
   },

@@ -6,7 +6,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, Timestamp, doc, setDoc, getDocs, query, orderBy, limit, getDoc, where, startAfter, writeBatch, arrayUnion, updateDoc, deleteDoc, getCountFromServer, arrayRemove, serverTimestamp, increment } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
-import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, updateProfile, signOut, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, updateProfile, signOut, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, FacebookAuthProvider } from 'firebase/auth';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // * Your web app's Firebase configuration
@@ -46,6 +46,40 @@ export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({
     prompt: 'select_account'
+  });
+  try {
+    const userCredential = await signInWithPopup(auth, provider);
+    const user = userCredential.user;
+
+    const idTokenResult = await user.getIdTokenResult(true);
+    const role = idTokenResult.claims && idTokenResult.claims.role ? idTokenResult.claims.role : 'user';
+
+    // Check if the user's document already exists in the Users collection
+    const userDocRef = doc(firestore, 'Users', user.uid);
+    const userDocSnapshot = await getDoc(userDocRef);
+
+    if (!userDocSnapshot.exists()) {
+      const userData = {
+        dateJoined: serverTimestamp(),
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: 'user'
+      };
+      await setDoc(userDocRef, userData);
+    }
+
+    return { success: true, role };
+  } catch (error) {
+    console.error('Error signing in:', error);
+    return { success: false, error: error.message || 'An error occurred' };
+  }
+}
+
+export async function signInWithFacebook() {
+  const provider = new FacebookAuthProvider();
+  provider.setCustomParameters({
+    'display': 'popup'
   });
   try {
     const userCredential = await signInWithPopup(auth, provider);
