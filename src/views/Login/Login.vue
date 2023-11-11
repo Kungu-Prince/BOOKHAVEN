@@ -54,7 +54,7 @@
             <hr class="w-[43%] bg-outline" />
           </div>
           <img @click="googleSignIn" id="googleSignInButton"
-            class="cursor-pointer w-32 xs:w-44 md:w-48 rounded-lg mb-auto" src="@/assets/images/google_signin.png"
+            class="cursor-pointer w-32 xs:w-44 md:w-48 rounded-lg mb-4" src="@/assets/images/google_signin.png"
             alt="Sign in with google" />
             <img @click="facebookSignIn"
             class="cursor-pointer w-32 xs:w-44 md:w-48 rounded-lg mb-auto" src="https://i.stack.imgur.com/oL5c2.png"
