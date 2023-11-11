@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+$breakpoints: (
+  "xs": 320px,
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+);
+
+* {
+  transition: all 0.5s;
+}
+
+body{
+  @apply bg-surface-surface
+}
+
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+.input {
+  border-width: 0.5px;
+  --tw-border-opacity: 1;
+  border-color: rgb(99 91 112 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(233 222 248 / var(--tw-bg-opacity));--tw-text-opacity: 1;
+  color: rgb(31 24 43 / var(--tw-text-opacity));
+  --tw-placeholder-opacity: 1;
+  color: rgb(99 91 112 / var(--tw-placeholder-opacity));
+  border-radius: 6px;
+  width: 100%;
+  padding: 10px 7px;
+  &:focus{
+    @apply outline-primary-primary;
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  width: 1px;
+  background-color: transparent;
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+img {
+  object-fit: cover;
+  object-position: center center;
+}
+input[type="radio"]:checked, input[type="checkbox"]:checked{
+  @apply accent-primary-primary;
+}
+p{
+  @apply leading-relaxed;
+}
+
+.pill {
+  @apply border py-1 px-2 rounded-full flex items-center gap-1 bg-surface-surface text-surface-on_surface whitespace-nowrap w-fit shadow text-label-medium;
+  i {
+    @apply text-outline cursor-pointer;
+    font-size: large;
+    &.small {
+      font-size: x-small;
+    }
+    &.icon {
+      font-size:larger;
+    }
+  }
+}
+
+.button {
+  border-radius: 4px;
+  padding: 6px 19px;
+  justify-content: center;
+  align-items: center;
+
+  &:hover{
+    @apply bg-opacity-70;
+  }
+
+  @media (min-width: map-get($breakpoints, "md")) {
+    border-radius: 6px;
+    padding: 8px 25px;
+  }
+}

@@ -1,0 +1,85 @@
+@use "./global";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dropdown {
+  @apply py-1 absolute right-0 top-5 mt-2 z-20 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none;
+
+  .select {
+    @apply px-3 py-2 text-surface-on_surface cursor-pointer flex gap-1 whitespace-nowrap items-center;
+    i {
+      @apply text-blue-700 invisible;
+      font-size: larger;
+    }
+    &.active i {
+      visibility: visible;
+    }
+  }
+  .radio {
+    @apply px-3 py-2 text-surface-on_surface flex gap-2 whitespace-nowrap items-center;
+    label,
+    input {
+      @apply cursor-pointer;
+    }
+  }
+}
+
+@media (max-width: (map-get(global.$breakpoints, "md") - 1px)) {
+  #nav {
+    position: absolute;
+    transform: translateY(62%);
+    &.hide {
+      transform: translateY(-130%);
+      transition: transform ease-out 0.3s;
+    }
+  }
+}
+
+#main-404 {
+  display: table;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
+
+  .content {
+    display: table-cell;
+    vertical-align: middle;
+
+    h1 {
+      font-size: 50px;
+      display: inline-block;
+      padding-right: 12px;
+      animation: type 0.5s alternate infinite;
+    }
+  }
+}
+
+@keyframes type {
+  from {
+    box-shadow: inset -3px 0px 0px #49454e;
+  }
+  to {
+    box-shadow: inset -3px 0px 0px transparent;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    120deg,
+    #e5e5e5 30%,
+    #f0f0f0 38%,
+    #f0f0f0 40%,
+    #e5e5e5 48%
+  );
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  animation: skeleton 2s infinite;
+}
+@keyframes skeleton {
+  100% {
+    background-position: -100% 0;
+  }
+}
+
